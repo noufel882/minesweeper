@@ -1,6 +1,7 @@
 package Control;
 
 import GameModels.Cell;
+
 import javax.swing.JButton;
 
 public class VisualCell extends JButton{

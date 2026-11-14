@@ -1,5 +1,7 @@
 package Control;
 
+import Configration.GameConfig;
+
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -7,49 +9,57 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 
-public final class GameDrawManager {
+public final class GameDrawManager{
     
     private JFrame frame;
     private JPanel panel;
-    private int boardCellsCount;
-    private VisualCell[][] buttons;
+    private VisualCell[][] drawnCells;
     
-    public VisualCell[][] Cells(){return buttons;}
-
-    public GameDrawManager(int boardSize){
-        this.boardCellsCount = boardSize;
-        buttons = new VisualCell[boardSize][boardSize];
-        for (int i = 0; i < buttons.length; i++) {  
-            for (int j = 0; j < buttons.length; j++) {         
-                buttons[i][j] = new VisualCell();              
-            }          
-        }
+    
+    public VisualCell[][] getDrawnCells(){
+        return drawnCells;
     }
- 
-    public void initResources(){
-    
-        SwingUtilities.invokeLater(() -> {
+
+    private void createGameWindow(){
+        if(frame == null){
             frame = new JFrame();
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            
-            panel = new JPanel(new GridLayout(boardCellsCount ,boardCellsCount));
-            frame.add(panel);
-            
-            for (int i = 0; i < boardCellsCount; i++) {
-                for (int j = 0; j < boardCellsCount; j++) {                                
-                    panel.add(buttons[i][j]);     
-                }
-            }
-        });
+        }
     }
 
-    public void drawGameWindow(String title ,int width , int height){
-        SwingUtilities.invokeLater(() -> {
-            frame.setTitle(title);
-            frame.setSize(width,height);
+    private void createPanel(int boardWidth){   
+        if(panel == null){
+            panel = new JPanel(); 
+        }
+        panel.setLayout(new GridLayout(boardWidth ,boardWidth,1,1));        
+    }
+    
+    public void createCells(int boardWidth){
+        panel.removeAll();
+        drawnCells= new VisualCell[boardWidth][boardWidth]; 
+        for (int i = 0; i < boardWidth; i++) {
+            for (int j = 0; j < boardWidth; j++) {
+                drawnCells[i][j] = new VisualCell();
+                panel.add(drawnCells[i][j]);
+            }
+        }
+    }
+    
+    public void draw(int boardWidth){  
+        if(boardWidth <= 0)
+            throw new IllegalArgumentException("cells count should be a positive interger and non-equal to zero !");
+
+        SwingUtilities.invokeLater(() -> {  
+            createGameWindow();   
+            createPanel(boardWidth);
+            createCells(boardWidth);
+            frame.add(panel);
+            frame.setTitle(GameConfig.TITLE);
+            frame.setSize(GameConfig.FRAME_WIDTH,GameConfig.FRAME_HEIGHT);
             frame.setVisible(true);
-        });
+        });      
+
     }
     
     //set the unmanaged resources free
