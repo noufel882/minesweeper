@@ -43,7 +43,7 @@ public class VisualCell extends JButton{
             else {
                 setIcon(ImageManager.IMAGES.get("blank"));
             }
-            this.setEnabled(false);
+            
             break;
     }
 
@@ -67,7 +67,7 @@ public class VisualCell extends JButton{
     }
 
     public void mineCell(){
-        cell.setMine(true);        
+        cell.setMine(true);       
     }
 
     public void ToggleFlag(){
@@ -82,5 +82,8 @@ public class VisualCell extends JButton{
         if(cellStatus == Status.Flaged || cellStatus == Status.Reaveled)return;
         setCellStatus(Status.Reaveled);
     }
+
+   
+    
 
 }

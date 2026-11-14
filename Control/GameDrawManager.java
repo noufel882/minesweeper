@@ -3,6 +3,8 @@ package Control;
 import Configration.GameConfig;
 
 import java.awt.GridLayout;
+import java.lang.reflect.InvocationTargetException;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -49,29 +51,23 @@ public final class GameDrawManager{
     public void draw(int boardWidth){  
         if(boardWidth <= 0)
             throw new IllegalArgumentException("cells count should be a positive interger and non-equal to zero !");
-
-        SwingUtilities.invokeLater(() -> {  
-            createGameWindow();   
-            createPanel(boardWidth);
-            createCells(boardWidth);
-            frame.add(panel);
-            frame.setTitle(GameConfig.TITLE);
-            frame.setSize(GameConfig.FRAME_WIDTH,GameConfig.FRAME_HEIGHT);
-            frame.setVisible(true);
-        });      
-
-    }
-    
-    //set the unmanaged resources free
-    public void close(){
-        if(frame != null)
-        {
-            SwingUtilities.invokeLater(() -> {
-                frame.dispose();       
-            });
+        try{
+            
+            SwingUtilities.invokeAndWait(() -> {  
+                createGameWindow();   
+                createPanel(boardWidth);
+                createCells(boardWidth);
+                frame.add(panel);
+                frame.setTitle(GameConfig.TITLE);
+                frame.setSize(GameConfig.FRAME_WIDTH,GameConfig.FRAME_HEIGHT);
+                frame.setVisible(true);
+            });      
+            
+        } catch (InterruptedException | InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
-    
+     
     public static void displayWinScreen(){
         JOptionPane.showMessageDialog(null, "You win !", "Win", JOptionPane.INFORMATION_MESSAGE);
     } 
