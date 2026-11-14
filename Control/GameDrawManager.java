@@ -13,42 +13,42 @@ public final class GameDrawManager {
     private JFrame frame;
     private JPanel panel;
     private int boardCellsCount;
-    private JButton[][] buttons;
+    private VisualCell[][] buttons;
     
-    public GameDrawManager(int boardCellsCount){
-        this.boardCellsCount = boardCellsCount;
-        buttons = new JButton[boardCellsCount][boardCellsCount];
-        for (int i = 0; i < buttons.length; i++) {            
-            buttons[i][i] = new JButton();              
+    public VisualCell[][] Cells(){return buttons;}
+
+    public GameDrawManager(int boardSize){
+        this.boardCellsCount = boardSize;
+        buttons = new VisualCell[boardSize][boardSize];
+        for (int i = 0; i < buttons.length; i++) {  
+            for (int j = 0; j < buttons.length; j++) {         
+                buttons[i][j] = new VisualCell();              
+            }          
         }
+    }
+ 
+    public void initResources(){
+    
+        SwingUtilities.invokeLater(() -> {
+            frame = new JFrame();
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            
+            panel = new JPanel(new GridLayout(boardCellsCount ,boardCellsCount));
+            frame.add(panel);
+            
+            for (int i = 0; i < boardCellsCount; i++) {
+                for (int j = 0; j < boardCellsCount; j++) {                                
+                    panel.add(buttons[i][j]);     
+                }
+            }
+        });
     }
 
-    private void initframe(String title ,int width , int height){
-        frame = new JFrame(title);
-        frame.setSize(width,height);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-    
-    private void initPanel(){
-        panel = new JPanel(new GridLayout(boardCellsCount ,boardCellsCount));
-        frame.add(panel);
-    }
-    
-    private void initButtons(){
-  
-        for (int i = 0; i < boardCellsCount; i++) {
-            for (int j = 0; j < buttons.length; j++) {                                
-                panel.add(buttons[i][j]);     
-            }
-        }
-    }
-    
     public void drawGameWindow(String title ,int width , int height){
         SwingUtilities.invokeLater(() -> {
-            initframe(title,width,height);
-            initPanel();
-            initButtons();
+            frame.setTitle(title);
+            frame.setSize(width,height);
             frame.setVisible(true);
         });
     }
