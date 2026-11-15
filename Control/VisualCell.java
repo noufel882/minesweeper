@@ -60,6 +60,7 @@ public class VisualCell extends JButton{
             }
             else {
                 setIcon(ImageManager.IMAGES.get("blank"));
+                this.setEnabled(false);
             }
             
             break;
@@ -102,7 +103,7 @@ public class VisualCell extends JButton{
 
     public void reavel(){
         if(cellStatus == Status.Flaged || cellStatus == Status.Reaveled)return;
-        setCellStatus(Status.Reaveled);
+        setCellStatus(Status.Reaveled);       
     }
 
     public void clear(){
