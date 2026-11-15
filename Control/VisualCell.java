@@ -3,6 +3,10 @@ package Control;
 import GameModels.Cell;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 public class VisualCell extends JButton{
 
@@ -14,6 +18,21 @@ public class VisualCell extends JButton{
     public VisualCell(){
         cell= new Cell();
         setCellStatus(Status.UnFlaged);
+        this.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    reavel();
+                }
+                else if (SwingUtilities.isRightMouseButton(e)) {
+                    toggleFlag();
+                }
+
+            }
+
+        });
     }
 
     private void setCellStatus(Status status) {
@@ -58,8 +77,12 @@ public class VisualCell extends JButton{
         return cell.hasMine();
     }
 
-    public int adjacentMines(){
+    private int adjacentMines(){
         return cell.getAdjacentMines();
+    }
+
+    public void increaseMines(){
+        cell.setAdjacentMines(cell.getAdjacentMines()+1);
     }
    
     public void setAdjacentMines(int adjacentMines){
@@ -70,7 +93,7 @@ public class VisualCell extends JButton{
         cell.setMine(true);       
     }
 
-    public void ToggleFlag(){
+    public void toggleFlag(){
         if(cellStatus == Status.Flaged)
             setCellStatus(Status.UnFlaged);
 
@@ -78,12 +101,14 @@ public class VisualCell extends JButton{
             setCellStatus(Status.Flaged);
     }
 
-    public void Reavel(){
+    public void reavel(){
         if(cellStatus == Status.Flaged || cellStatus == Status.Reaveled)return;
         setCellStatus(Status.Reaveled);
     }
 
-   
-    
+    public void clear(){
+        cellStatus = Status.UnReaveled;
+        cell.clear();
+    }
 
 }
