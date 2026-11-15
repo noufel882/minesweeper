@@ -25,7 +25,8 @@ public final class GameDrawManager{
     private void createGameWindow(){
         if(frame == null){
             frame = new JFrame();
-            frame.setLocationRelativeTo(null);
+            frame.setLocation(0,0);
+            frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
     }
