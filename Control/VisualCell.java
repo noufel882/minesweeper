@@ -29,7 +29,6 @@ public class VisualCell extends JButton{
                 else if (SwingUtilities.isRightMouseButton(e)) {
                     toggleFlag();
                 }
-
             }
 
         });
