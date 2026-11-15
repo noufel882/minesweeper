@@ -1,12 +1,10 @@
 package Control;
 
 import GameModels.Cell;
-
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 
 public class VisualCell extends JButton{
 
@@ -24,7 +22,7 @@ public class VisualCell extends JButton{
             public void mouseClicked(MouseEvent e) {
 
                 if (SwingUtilities.isLeftMouseButton(e)) {
-                    reavel();
+                    reveal();
                 }
                 else if (SwingUtilities.isRightMouseButton(e)) {
                     toggleFlag();
@@ -101,7 +99,7 @@ public class VisualCell extends JButton{
             setCellStatus(Status.Flaged);
     }
 
-    public void reavel(){
+    public void reveal(){
         if(cellStatus == Status.Flaged || cellStatus == Status.Reaveled)return;
         setCellStatus(Status.Reaveled);       
     }

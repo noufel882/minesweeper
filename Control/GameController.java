@@ -7,7 +7,7 @@ import Configration.GameConfig;
 public final class GameController{
     private GameDrawManager drawManager;
     private VisualCell[][] boardCells;
-    private Random randomLocation ;
+    private Random randomLocation;    
 
     public GameController(){
         drawManager = new GameDrawManager();
@@ -16,26 +16,35 @@ public final class GameController{
 
     public void run(int boardSize){
         drawManager.draw(boardSize);
+        initializeBoardCells();
+        MineCells(boardSize);
+    }
+    
+    private void initializeBoardCells(){
         boardCells = drawManager.getDrawnCells();   
-        MiningCells(boardSize);
+        for (VisualCell[] row : boardCells) {
+            for (VisualCell cell : row) {
+                cell.addActionListener((e) -> checkGameLoss(cell));
+            }
+        }
     }
 
-    private void MiningCells(int boardSize){
+    private void MineCells(int boardSize){
         int minesCount = (int) Math.ceil(boardSize * boardSize * GameConfig.MINES_RATIO);
         int i , j;
         while(minesCount != 0){
             i = randomLocation.nextInt(0,boardSize);
             j = randomLocation.nextInt(0,boardSize);
-
+            
             if(!boardCells[i][j].hasMine()){
                 boardCells[i][j].mineCell();
                 updateAdjacentCells(i ,j);
                 minesCount--;
             }
-
+            
         }
     }
-
+    
     private void updateAdjacentCells(int i , int j){
         
         //Top Left
@@ -71,7 +80,21 @@ public final class GameController{
             boardCells[i+1][j+1].increaseMines();            
         }
     }
-
-    
+ 
+    private void checkGameLoss(VisualCell cell){
+        if(cell.hasMine() && cell.cellStatus() != VisualCell.Status.Flaged ){
+            revealAllMine();
+            drawManager.displayLoseScreen();
+        }
+    }
+   
+    private void revealAllMine(){
+        for (VisualCell[] row : boardCells) {
+            for (VisualCell cell : row) {
+                if(cell.hasMine())
+                    cell.reveal();
+            }
+        }
+    }
 
 }

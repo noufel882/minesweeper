@@ -69,11 +69,11 @@ public final class GameDrawManager{
         }
     }
      
-    public static void displayWinScreen(){
+    public void displayWinScreen(){
         JOptionPane.showMessageDialog(null, "You win !", "Win", JOptionPane.INFORMATION_MESSAGE);
     } 
 
-    public static void displayLoseScreen(){
+    public void displayLoseScreen(){
         JOptionPane.showMessageDialog(null, "You lose !", "lose", JOptionPane.INFORMATION_MESSAGE);
     } 
 
