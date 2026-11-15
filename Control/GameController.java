@@ -1,24 +1,77 @@
 package Control;
 
+import java.util.Random;
+
+import Configration.GameConfig;
 
 public final class GameController{
     private GameDrawManager drawManager;
+    private VisualCell[][] boardCells;
+    private Random randomLocation ;
 
-    private boolean runForFirstTime = true;
-
-    public GameController(int boardSize){
-        drawManager = new GameDrawManager(boardSize);
+    public GameController(){
+        drawManager = new GameDrawManager();
+        randomLocation = new Random();
     }
 
-    public void run(){        
-        if(runForFirstTime){
-            drawManager.initResources();
-            runForFirstTime = false;
-        }  
-        drawManager.drawGameWindow("Minesweeper", 500, 500);
+    public void run(int boardSize){
+        drawManager.draw(boardSize);
+        boardCells = drawManager.getDrawnCells();   
+        MiningCells(boardSize);
     }
 
+    private void MiningCells(int boardSize){
+        int minesCount = (int) Math.ceil(boardSize * boardSize * GameConfig.MINES_RATIO);
+        int i , j;
+        while(minesCount != 0){
+            i = randomLocation.nextInt(0,boardSize);
+            j = randomLocation.nextInt(0,boardSize);
 
+            if(!boardCells[i][j].hasMine()){
+                boardCells[i][j].mineCell();
+                updateAdjacentCells(i ,j);
+                minesCount--;
+            }
 
-    public void close(){drawManager.close();}
+        }
+    }
+
+    private void updateAdjacentCells(int i , int j){
+        
+        //Top Left
+        if(i-1 >= 0 && j-1 >= 0){
+            boardCells[i-1][j-1].increaseMines();
+        }
+        //Left
+        if(j-1 >= 0){
+            boardCells[i][j-1].increaseMines();
+        }
+        //Bottom left
+        if(i+1 < boardCells.length && j-1 >= 0){
+            boardCells[i+1][j-1].increaseMines();
+        }
+        //Top
+        if(i-1 >= 0){
+            boardCells[i-1][j].increaseMines();
+        }
+        //Bottom
+        if(i+1 < boardCells.length){
+            boardCells[i+1][j].increaseMines();            
+        }
+        //Top right 
+        if(i-1 >= 0 && j+1 < boardCells.length){
+            boardCells[i-1][j+1].increaseMines();
+        }
+        //Right
+        if(j+1 < boardCells.length){
+            boardCells[i][j+1].increaseMines();            
+        }
+        //Bottom Right
+        if(i+1 < boardCells.length && j+1 < boardCells.length){
+            boardCells[i+1][j+1].increaseMines();            
+        }
+    }
+
+    
+
 }

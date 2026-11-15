@@ -55,4 +55,12 @@ public class Cell {
     public void setAdjacentMines(int adjacentMines) {
         this.adjacentMines = adjacentMines;
     }
+
+
+    public void clear(){
+        this.hasMine     = false;
+        this.isFlagged = false;
+        this.isRevealed = false;
+        this.adjacentMines = 0;
+    }
 }
