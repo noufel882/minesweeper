@@ -57,7 +57,7 @@ public class VisualCell extends JButton{
     }
 
     public void increaseMines(){
-        cell.setAdjacentMines(cell.getAdjacentMines()+1);
+        cell.setAdjacentMines(adjacentMines()+1);
     }
    
     public void setAdjacentMines(int adjacentMines){
