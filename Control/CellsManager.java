@@ -4,7 +4,7 @@ import java.util.Random;
 
 import Configration.GameConfig;
 
-public class CellsMiner {
+public class CellsManager {
     private final static Random randomLocation = new Random();  
     
 
@@ -18,7 +18,7 @@ public class CellsMiner {
 
             if(!boardCells[i][j].hasMine()){
                 boardCells[i][j].mineCell();
-                CellsMiner.updateAdjacentCells(boardCells,i ,j);
+                CellsManager.updateAdjacentCells(boardCells,i ,j);
                 minesCount--;
             }
             
@@ -27,7 +27,7 @@ public class CellsMiner {
      
     public static void updateAdjacentCells(VisualCell[][] boardCells , int i , int j){
         
-        for (VisualCell adjacent : CellsMiner.getCellAdjacents(boardCells,i ,j) ) {
+        for (VisualCell adjacent : CellsManager.getCellAdjacents(boardCells,i ,j) ) {
             if(adjacent != null)
                 adjacent.increaseMines();
         }

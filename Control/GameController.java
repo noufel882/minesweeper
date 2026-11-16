@@ -20,7 +20,7 @@ public final class GameController{
     public void run(){  
         drawManager.draw();
         initializeBoardCells();
-        CellsMiner.mineCells(boardCells ,minesCount);
+        CellsManager.mineCells(boardCells ,minesCount);
     }
     
     private void initializeBoardCells(){
@@ -53,7 +53,7 @@ public final class GameController{
         if(cell.cellStatus() != VisualCell.Status.Hidden)return;
 
         if(cell.hasMine() && cell.cellStatus() != VisualCell.Status.Flaged ){
-            CellsMiner.revealAllMine(boardCells);
+            CellsManager.revealAllMine(boardCells);
             drawManager.displayLoseScreen();
             gameOver = true;
         }
