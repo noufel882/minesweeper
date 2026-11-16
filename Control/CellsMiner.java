@@ -18,16 +18,16 @@ public class CellsMiner {
 
             if(!boardCells[i][j].hasMine()){
                 boardCells[i][j].mineCell();
-                updateAdjacentCells(i ,j);
+                CellsMiner.updateAdjacentCells(boardCells,i ,j);
                 minesCount--;
             }
             
         }
     }
      
-    private void updateAdjacentCells(int i , int j){
+    public static void updateAdjacentCells(VisualCell[][] boardCells , int i , int j){
         
-        for (VisualCell adjacent : getCellAdjacents(i ,j) ) {
+        for (VisualCell adjacent : CellsMiner.getCellAdjacents(boardCells,i ,j) ) {
             if(adjacent != null)
                 adjacent.increaseMines();
         }

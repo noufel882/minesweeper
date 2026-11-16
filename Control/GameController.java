@@ -1,6 +1,5 @@
 package Control;
 
-import java.util.Random;
 import javax.swing.SwingUtilities;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
