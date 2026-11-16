@@ -2,52 +2,30 @@ package Control;
 
 import GameModels.Cell;
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 
 public class VisualCell extends JButton{
 
-    public static enum Status {UnReaveled,Reaveled,Flaged,UnFlaged};
-
-    private Status cellStatus = Status.UnReaveled;
+    public static enum Status {Hidden,Revealed,Flaged};
+    private Status cellStatus = Status.Hidden;
     private Cell cell;
 
     public VisualCell(){
         cell= new Cell();
-        setCellStatus(Status.UnFlaged);
-        this.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                if (SwingUtilities.isLeftMouseButton(e)) {
-                    reveal();
-                }
-                else if (SwingUtilities.isRightMouseButton(e)) {
-                    toggleFlag();
-                }
-            }
-
-        });
+        setCellStatus(Status.Hidden);     
     }
 
     private void setCellStatus(Status status) {
     switch (status) {
-
         case Flaged:
             setIcon(ImageManager.IMAGES.get("flag"));
             break;
 
-        case UnFlaged:
+        case Hidden:
             setIcon(ImageManager.IMAGES.get("blank"));
             break;
 
-        case UnReaveled:
-            setIcon(ImageManager.IMAGES.get("blank"));
-            break;
-
-        case Reaveled:
+        case Revealed:
             if (cell.hasMine()) {
                 setIcon(ImageManager.IMAGES.get("mine"));
             }
@@ -59,8 +37,7 @@ public class VisualCell extends JButton{
             else {
                 setIcon(ImageManager.IMAGES.get("blank"));
                 this.setEnabled(false);
-            }
-            
+            }         
             break;
     }
 
@@ -93,19 +70,19 @@ public class VisualCell extends JButton{
 
     public void toggleFlag(){
         if(cellStatus == Status.Flaged)
-            setCellStatus(Status.UnFlaged);
+            setCellStatus(Status.Hidden);
 
-        else if(cellStatus == Status.UnFlaged)
+        else if(cellStatus == Status.Hidden)
             setCellStatus(Status.Flaged);
     }
 
     public void reveal(){
-        if(cellStatus == Status.Flaged || cellStatus == Status.Reaveled)return;
-        setCellStatus(Status.Reaveled);       
+        if(cellStatus == Status.Hidden)
+            setCellStatus(Status.Revealed);       
     }
 
     public void clear(){
-        cellStatus = Status.UnReaveled;
+        setCellStatus(Status.Hidden);
         cell.clear();
     }
 

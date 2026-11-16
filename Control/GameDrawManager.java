@@ -31,36 +31,36 @@ public final class GameDrawManager{
         }
     }
 
-    private void createPanel(int boardWidth){   
+    private void createPanel(){   
         if(panel == null){
             panel = new JPanel(); 
         }
-        panel.setLayout(new GridLayout(boardWidth ,boardWidth,1,1));        
+        panel.setLayout(new GridLayout(GameConfig.BOARD_WIDTH ,GameConfig.BOARD_WIDTH,1,1));        
     }
     
-    public void createCells(int boardWidth){
+    public void createCells(){
         panel.removeAll();
-        drawnCells= new VisualCell[boardWidth][boardWidth]; 
-        for (int i = 0; i < boardWidth; i++) {
-            for (int j = 0; j < boardWidth; j++) {
+        drawnCells= new VisualCell[GameConfig.BOARD_WIDTH][GameConfig.BOARD_WIDTH]; 
+        for (int i = 0; i < GameConfig.BOARD_WIDTH; i++) {
+            for (int j = 0; j < GameConfig.BOARD_WIDTH; j++) {
                 drawnCells[i][j] = new VisualCell();
                 panel.add(drawnCells[i][j]);
             }
         }
     }
     
-    public void draw(int boardWidth){  
-        if(boardWidth <= 0)
+    public void draw(){  
+        if(GameConfig.BOARD_WIDTH <= 0)
             throw new IllegalArgumentException("cells count should be a positive interger and non-equal to zero !");
         try{
             
             SwingUtilities.invokeAndWait(() -> {  
                 createGameWindow();   
-                createPanel(boardWidth);
-                createCells(boardWidth);
+                createPanel();
+                createCells();
                 frame.add(panel);
-                frame.setTitle(GameConfig.TITLE);
-                frame.setSize(GameConfig.FRAME_WIDTH,GameConfig.FRAME_HEIGHT);
+                frame.setTitle(GameConfig.WINDOW_TITLE);
+                frame.setSize(GameConfig.WINDOW_FRAME_WIDTH,GameConfig.WINDOW_FRAME_HEIGHT);
                 frame.setVisible(true);
             });      
             
