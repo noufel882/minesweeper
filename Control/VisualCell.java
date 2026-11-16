@@ -52,7 +52,7 @@ public class VisualCell extends JButton{
         return cell.hasMine();
     }
 
-    private int adjacentMines(){
+    public int adjacentMines(){
         return cell.getAdjacentMines();
     }
 
