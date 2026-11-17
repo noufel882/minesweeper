@@ -11,9 +11,10 @@ public class GameConfig {
     public static int BOARD_WIDTH = 16;
     //A rational value from 0 to 1 
     // represents the dansity of mines from the total board cells
-    // Example : 100 cells (10 x 10 board) =>  100 * MINES_RATIO = 15 mines
+    // Example :MINES_RATIO = 0.15 , 100 cells
+    //  =>  100 * MINES_RATIO = 15 mines
     // note :
     // -> lower values of MINES_RATIO ==> game harder 
     // -> lower values of MINES_RATIO ==> game easear
-    public static final double MINES_RATIO = 0.15f;
+    public static final double MINES_RATIO = 0.13f;
 }
