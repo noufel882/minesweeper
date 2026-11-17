@@ -1,6 +1,8 @@
 package Control;
 
 import javax.swing.SwingUtilities;
+
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import Configration.GameConfig;
@@ -30,51 +32,53 @@ public final class GameController{
         safeCellsCount = cellsCount - minesCount;
 
         boardCells = drawManager.getDrawnCells();   
-        for (VisualCell[] row : boardCells) {
-            for (VisualCell cell : row) {             
+        for(int i = 0 ; i < boardCells.length ; i++){
+            for(int j = 0 ; j < boardCells[i].length ; j++){     
+                
+                final int row = i;
+                final int col = j;
+                var cell = boardCells[row][col];
                 cell.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (SwingUtilities.isLeftMouseButton(e)) {
-                            checkGameLoss(cell);
+                            checkClickedCell(new Point(row,col));
                         }
                         else if (SwingUtilities.isRightMouseButton(e)) {
                             cell.toggleFlag();
                         }
                     }
-                 });
+                });
             }
         }
     }
 
-    private void checkGameLoss(VisualCell cell){
+    private void checkClickedCell(Point clickedCellPos){
         if(gameOver)return;
+        
+        VisualCell cell = boardCells[clickedCellPos.x][clickedCellPos.y];
 
-        if(cell.cellStatus() != VisualCell.Status.Hidden)return;
+        if (cell.cellStatus() != VisualCell.Status.Hidden)
+            return;
 
-        if(cell.hasMine() && cell.cellStatus() != VisualCell.Status.Flaged ){
+        //if clicked on a mine 
+        if(cell.hasMine()){  
+            cell.reveal();
             CellsManager.revealAllMine(boardCells);
             drawManager.displayLoseScreen();
             gameOver = true;
+            return;
         }
-        else
-            checkGameWin(cell);
-    }
-   
-    private  void checkGameWin(VisualCell cell){
-        if(cell.cellStatus() == VisualCell.Status.Hidden){         
-            cell.reveal();
-            
-            if(!cell.hasMine()){
-                safeCellsCount--;    
-            }
-        }
+ 
+        //if you don't click on a mine the game continues
+        safeCellsCount -= CellsManager.revealEmptyAdjacentCells(boardCells,clickedCellPos);     
+        
         if(safeCellsCount == 0)
         {
             drawManager.displayWinScreen();
             gameOver = true;
         }
+        
     }
-
     
 }
