@@ -31,7 +31,7 @@ public final class GameDrawManager{
         }
     }
 
-    private void createPanel(){   
+    private void createGamePanel(){   
         if(panel == null){
             panel = new JPanel(); 
         }
@@ -56,7 +56,7 @@ public final class GameDrawManager{
             
             SwingUtilities.invokeAndWait(() -> {  
                 createGameWindow();   
-                createPanel();
+                createGamePanel();
                 createCells();
                 frame.add(panel);
                 frame.setTitle(GameConfig.WINDOW_TITLE);
