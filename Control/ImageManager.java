@@ -3,7 +3,9 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 
 
+/** Loads and provides the shared image icons used for board-cell states. */
 public class ImageManager {
+    /** Icons keyed by mine counts and special states such as flag, mine, and blank. */
     public final static Map<String, ImageIcon> IMAGES = Map.ofEntries(
         Map.entry("1", new ImageIcon(ImageManager.class.getResource("/Resources/Images/01.png"))),
         Map.entry("2", new ImageIcon(ImageManager.class.getResource("/Resources/Images/02.png"))),

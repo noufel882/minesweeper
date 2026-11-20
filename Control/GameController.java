@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import Configration.GameConfig;
 
+/** Coordinates board creation, mouse input, mine placement, and game completion. */
 public final class GameController{
     private GameDrawManager drawManager;
     private VisualCell[][] boardCells;  
@@ -15,16 +16,19 @@ public final class GameController{
     private int safeCellsCount;
     private boolean gameOver = false;
 
+    /** Creates a controller and its associated drawing manager. */
     public GameController(){
         drawManager = new GameDrawManager();
     }
 
+    /** Draws the board, initializes it, and randomly places the configured mines. */
     public void run(){  
         drawManager.draw();
         initializeBoardCells();
         CellsManager.mineCells(boardCells ,minesCount);
     }
     
+    /** Calculates board totals and attaches mouse actions to every visual cell. */
     private void initializeBoardCells(){
 
         cellsCount = GameConfig.BOARD_WIDTH  * GameConfig.BOARD_WIDTH;
@@ -53,6 +57,11 @@ public final class GameController{
         }
     }
 
+    /**
+     * Handles a left-clicked board position.
+     *
+     * @param clickedCellPos row and column of the clicked cell
+     */
     private void checkClickedCell(Point clickedCellPos){
         if(gameOver)return;
         

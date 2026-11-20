@@ -5,9 +5,16 @@ import java.util.Random;
 import Configration.GameConfig;
 import Control.VisualCell.Status;
 
+/** Provides board-wide operations for mine placement and cell revealing. */
 public class CellsManager {
     private final static Random randomLocation = new Random();  
       
+    /**
+     * Randomly places mines in the board and updates adjacent-mine counts.
+     *
+     * @param boardCells board to modify
+     * @param minesCount number of unique mines to place
+     */
     public static void mineCells(VisualCell[][] boardCells , int minesCount){      
         int i , j ;
         
@@ -20,10 +27,15 @@ public class CellsManager {
                 CellsManager.updateAdjacentCells(boardCells,new Point(i,j));
                 minesCount--;
             }
-            
         }
     }
      
+    /**
+     * Increases the adjacent-mine count of every valid neighbor of a mine.
+     *
+     * @param boardCells board containing the mine
+     * @param cellPos position of the mine
+     */
     public static void updateAdjacentCells(VisualCell[][] boardCells , Point cellPos){     
         for (Point adjacentPosition : CellsManager.getCellAdjacents(boardCells,cellPos) ) {
             if(adjacentPosition != null)
@@ -31,6 +43,11 @@ public class CellsManager {
         }      
     }
  
+    /**
+     * Reveals every mined cell in the board.
+     *
+     * @param boardCells board to update
+     */
     public static void revealAllMine(VisualCell[][] boardCells ){
         for (VisualCell[] row : boardCells) {
             for (VisualCell cell : row) {
@@ -40,6 +57,13 @@ public class CellsManager {
         }
     }
 
+    /**
+     * Checks whether a point identifies an existing board cell.
+     *
+     * @param boardCells board used to establish bounds
+     * @param cellPos point whose row and column will be checked
+     * @return {@code true} if both coordinates are within the board
+     */
     public static boolean isPositionInBound(VisualCell[][] boardCells ,Point cellPos){       
         int i = cellPos.x , j = cellPos.y;
         return 
@@ -49,6 +73,13 @@ public class CellsManager {
             ;
     }
     
+    /**
+     * Gets all valid neighboring positions, including diagonal neighbors.
+     *
+     * @param boardCells board used to establish bounds
+     * @param cellPos center-cell position
+     * @return array of up to eight neighboring points; unused entries are {@code null}
+     */
     public static Point[] getCellAdjacents (VisualCell[][] boardCells  ,Point cellPos){
         Point[] adjacentsCellsLocation = new Point[8];
         int index = 0;
@@ -64,6 +95,14 @@ public class CellsManager {
         return adjacentsCellsLocation;
     }   
    
+    /**
+     * Reveals a safe cell and recursively reveals safe adjacent cells with no adjacent mines.
+     * Flagged, previously revealed, and mined cells are not revealed.
+     *
+     * @param boardCells board to update
+     * @param cellPos position of the cell to reveal
+     * @return number of newly revealed cells
+     */
     public static int revealEmptyAdjacentCells(VisualCell[][] boardCells ,Point cellPos){
         int revealedCells = 0;
         //1 Revealing the currentCell if not flagged or not revealed and it hasn't a mine
